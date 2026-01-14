@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sonsuza Dek - ŞVL & FRK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --heart-red: #ff002b;
+            --glow: rgba(255, 0, 43, 0.7);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Arka Plan Fotoğrafları - Mobil Uyumluluk İçin Düzenlendi */
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column; /* Mobilde alt alta gelsinler */
+            z-index: 1;
+            filter: brightness(0.45) contrast(1.1) saturate(0.8);
+        }
+
+        @media (min-width: 768px) {
+            .background-layer { flex-direction: row; } /* Bilgisayarda yan yana */
+        }
+
+        .photo {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 50%;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .photo { height: 100%; }
+        }
+
+        /* Yumuşak Kenar Geçişleri */
+        .photo::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
+        }
+
+        /* Ana Sahne */
+        .main-stage {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Canlı Nabız Atan Kalp */
+        .heart-wrapper {
+            position: relative;
+            width: 200px; /* Mobilde biraz daha kibar */
+            height: 200px;
+            filter: drop-shadow(0 0 35px var(--glow));
+            animation: heart-beat 1.4s infinite cubic-bezier(0.1, 0.7, 0.1, 1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .heart-wrapper { width: 280px; height: 280px; }
+        }
+
+        @keyframes heart-beat {
+            0% { transform: scale(1); }
+            10% { transform: scale(1.18); }
+            20% { transform: scale(1.05); }
+            30% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        .heart-svg { width: 100%; height: 100%; }
+
+        .veins {
+            fill: none;
+            stroke: #4e0000;
+            stroke-width: 0.6;
+            opacity: 0.6;
+            animation: vein-glow 2s infinite alternate;
+        }
+
+        @keyframes vein-glow {
+            from { stroke: #4e0000; opacity: 0.4; }
+            to { stroke: #ff002b; opacity: 1; }
+        }
+
+        /* Yazı Tasarımı - Mobil Uyumlu */
+        .love-text {
+            text-align: center;
+            margin-top: 30px;
+            color: #fff;
+            width: 100%;
+        }
+
+        .love-text h1 {
+            font-size: 1.8rem; /* Mobilde sığması için küçültüldü */
+            letter-spacing: 6px;
+            margin: 0;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff, #ffccd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(255, 0, 43, 0.6));
+        }
+
+        @media (min-width: 768px) {
+            .love-text h1 { font-size: 3.5rem; letter-spacing: 12px; }
+        }
+
+        .love-text p {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: var(--heart-red);
+            margin-top: 12px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        #particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles"></canvas>
+
+    <div class="background-layer">
+        <div class="photo" style="background-image: url('şvl.jpg');"></div>
+        <div class="photo" style="background-image: url('frk.jpg');"></div>
+    </div>
+
+    <div class="main-stage">
+        <div class="heart-wrapper" id="heart">
+            <svg class="heart-svg" viewBox="0 0 200 200">
+                <defs>
+                    <radialGradient id="heartGrad" cx="50%" cy="40%" r="50%">
+                        <stop offset="0%" style="stop-color:#ff002b;" />
+                        <stop offset="100%" style="stop-color:#300000;" />
+                    </radialGradient>
+                </defs>
+                <path fill="url(#heartGrad)" d="M100,170 C100,170 25,120 25,75 C25,35 65,25 100,65 C135,25 175,35 175,75 C175,120 100,170 100,170 Z" />
+                <path class="veins" d="M100,70 Q115,110 140,135" />
+                <path class="veins" d="M100,90 Q85,130 60,145" />
+                <path class="veins" d="M110,80 Q150,90 160,120" />
+            </svg>
+        </div>
+
+        <div class="love-text">
+            <h1>SEVGİLİM SENİ ÇOK SEVİYORUM</h1>
+            <p>Sonsuz bir aşkla, her nabızda...</p>
+        </div>
+    </div>
+
+    <script>
+        // Dokunma/Tıklama Etkileşimi
+        const heart = document.getElementById('heart');
+        const fastBeat = () => heart.style.animationDuration = '0.5s';
+        const slowBeat = () => heart.style.animationDuration = '1.4s';
+
+        heart.addEventListener('touchstart', fastBeat);
+        heart.addEventListener('touchend', slowBeat);
+        heart.addEventListener('mousedown', fastBeat);
+        heart.addEventListener('mouseup', slowBeat);
+
+        // Partikül Sistemi
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let dots = [];
+        class Dot {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speed = Math.random() * 0.4 + 0.1;
+                this.alpha = Math.random() * 0.4;
+            }
+            draw() {
+                ctx.fillStyle = rgba(255, 255, 255, ${this.alpha});
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            update() {
+                this.y -= this.speed;
+                if (this.y < 0) this.y = canvas.height;
+            }
+        }
+
+        for(let i=0; i<50; i++) dots.push(new Dot());
+
+        function animate() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            dots.forEach(d => { d.update(); d.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Pencere boyutu değişirse canvas'ı güncelle
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
